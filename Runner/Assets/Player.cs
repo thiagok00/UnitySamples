@@ -7,24 +7,44 @@ public class Player : MonoBehaviour {
 	public int jumpForce;
 	public int moveVelocity;
 
+	private const int MAX_JUMPS = 2;
+	private int jumpCounter = 0;
+
+
 	void Start () {
-		
+		jumpCounter = MAX_JUMPS;
 	}
 	
-	// Update is called once per frame
 	void Update ()
 	{
-		if (Input.GetKeyDown("space")) {
+		if (Input.GetKeyDown("space") && jumpCounter > 0 ) {
+			//removendo todas as forças pra fazer "pulo limpo"
+			this.GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
 			this.GetComponent<Rigidbody2D>().AddForce( new Vector2(0,jumpForce));
+			this.jumpCounter--;
 		}
+
+		/* Acelerando player pra direita */
 		this.GetComponent<Rigidbody2D>().velocity = new Vector2 (moveVelocity , this.GetComponent<Rigidbody2D>().velocity.y);
+		/* Travando angulo para  objeto nao rotacionar */
+		transform.eulerAngles = new Vector3(0,0,0);
 	}
 
 	void OnTriggerEnter2D (Collider2D c)
 	{
-		Debug.Log (c.tag);
+		//Debug.Log (c.tag);
 		if (c.tag == "Obstacle") {
-			GameObject.Destroy(this.gameObject);
+			if (this.transform.position.y < (c.transform.position.y + this.GetComponent<BoxCollider2D>().size.y/2 + c.GetComponent<BoxCollider2D>().size.y/2)) {
+				GameObject.Destroy (this.gameObject);
+			}
+			else {
+				Debug.Log(this.transform.position.y);
+
+		} else if (c.tag == "Plataform") {
+			this.jumpCounter = MAX_JUMPS;
+			Debug.Log ("Jump");
+	
 		}
 	}
+
 }

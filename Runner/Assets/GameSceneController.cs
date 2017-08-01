@@ -15,25 +15,32 @@ public class GameSceneController : MonoBehaviour {
 	private float safeSpawningArea = 25;
 
 	void Start () {
-		gamePointer = -25;
+		gamePointer = -19;
 	}
 
 	void Update ()
 	{
-		if (player != null)
+		if (player != null) {
 			gameCamera.transform.position = new Vector2 (player.transform.position.x, gameCamera.transform.position.y);
 
-		while (player != null && gamePointer < player.transform.position.x + safeSpawningArea) {
+			while (player != null && gamePointer < player.transform.position.x + safeSpawningArea) {
 
-			int blockIndex = Random.Range(0, blockPrefabs.Length);
-			GameObject blockObject = Instantiate (blockPrefabs[blockIndex]);
-			blockObject.transform.SetParent(this.transform);
-			Block block = blockObject.GetComponent<Block>();
-			blockObject.transform.position = new Vector3( gamePointer + block.size/2 , -3.21f, 11);
-			gamePointer += block.size;
+				int blockIndex = Random.Range (0, blockPrefabs.Length);
+				GameObject blockObject = Instantiate (blockPrefabs [blockIndex]);
+				blockObject.transform.SetParent (this.transform);
+				Block block = blockObject.GetComponent<Block> ();
+				blockObject.transform.position = new Vector3 (gamePointer + block.size / 2, -3.21f, 11);
+				gamePointer += block.size;
+			}
+			float score;
+
+			if (player.transform.position.x > 0)
+				score = player.transform.position.x;
+			else
+				score = 0f;
+
+			scoreText.text = "Score: " + Mathf.Floor (score);
 		}
-
-		scoreText.text = "Score: " + Mathf.Floor(player.transform.position.x);
 	}
 
 
