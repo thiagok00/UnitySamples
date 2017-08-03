@@ -47,8 +47,9 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Block.cs" />
+     <Compile Include="Assets\BlockGenerator.cs" />
      <Compile Include="Assets\GameSceneController.cs" />
-     <Compile Include="Assets\Player.cs" />
+     <Compile Include="Assets\Player\Player.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

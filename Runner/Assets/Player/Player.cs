@@ -26,25 +26,35 @@ public class Player : MonoBehaviour {
 
 		/* Acelerando player pra direita */
 		this.GetComponent<Rigidbody2D>().velocity = new Vector2 (moveVelocity , this.GetComponent<Rigidbody2D>().velocity.y);
+
 		/* Travando angulo para  objeto nao rotacionar */
 		transform.eulerAngles = new Vector3(0,0,0);
+	
 	}
+
+	private void GameOver ()
+	{
+		GameObject.Destroy (this.gameObject);
+
+	}
+
 
 	void OnTriggerEnter2D (Collider2D c)
 	{
 		//Debug.Log (c.tag);
 		if (c.tag == "Obstacle") {
-			if (this.transform.position.y < (c.transform.position.y + this.GetComponent<BoxCollider2D>().size.y/2 + c.GetComponent<BoxCollider2D>().size.y/2)) {
-				GameObject.Destroy (this.gameObject);
-			}
-			else {
-				Debug.Log(this.transform.position.y);
+			GameOver ();
+		} else if (c.tag == "Walkable Obstacle") {
+			if (this.transform.position.y < (c.transform.position.y + this.GetComponent<BoxCollider2D> ().size.y / 2 + c.GetComponent<BoxCollider2D> ().size.y / 2)) {
+				GameOver ();
+			} else {
+				this.jumpCounter = MAX_JUMPS;
 
+			}
 		} else if (c.tag == "Plataform") {
 			this.jumpCounter = MAX_JUMPS;
-			Debug.Log ("Jump");
-	
 		}
+
 	}
 
-}
+} /* fim classe */
